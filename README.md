@@ -1,5 +1,5 @@
 # AirBnB Clone - RESTful API
-This Simple Shell project is a collaboration between Aalaa Fahim and Reham Saeed, students of ALX Software Engineering using the Holberton School curriculum. The AirBnB project at Holberton School collectively covers fundamental concepts of higher level programming. The goal of AirBnB project is to eventually deploy our server a simple copy of the AirBnB Website(HBnB). A command interpreter is created in this segment to manage objects for the AirBnB(HBnB) website.
+This project is a collaboration between Aalaa Fahim and Reham Saeed, students of ALX Software Engineering using the Holberton School curriculum. The AirBnB project at Holberton School collectively covers fundamental concepts of higher level programming. The goal of AirBnB project is to eventually deploy our server a simple copy of the AirBnB Website(HBnB). A command interpreter is created in this segment to manage objects for the AirBnB(HBnB) website.
 
 #### Functionalities of this command interpreter:
 * Create a new object (ex: a new User or a new Place)
