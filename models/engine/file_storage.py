@@ -11,6 +11,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from datetime import datetime
 
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -19,6 +20,7 @@ classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
 class FileStorage:
     """serializes instances to a JSON file & deserializes back to instances"""
 
+    strptime = datetime.strptime
     # string - path to the JSON file
     __file_path = "file.json"
     # dictionary - empty but will store all objects by <class name>.id
@@ -62,7 +64,7 @@ class FileStorage:
         return: number of instances
         """
         return len(self.all(cls))
-x
+
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
         json_objects = {}
@@ -73,13 +75,21 @@ x
 
     def reload(self):
         """deserializes the JSON file to __objects"""
+        fname = FileStorage.__file_path
+        FileStorage.__objects = {}
         try:
-            with open(self.__file_path, 'r') as f:
-                jo = json.load(f)
-            for key in jo:
-                self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
+            with open(fname, mode='r', encoding='utf-8') as f:
+                new_objs = json.load(f)
         except:
-            pass
+            return
+        for o_id, d in new_objs.items():
+            k_cls = d['__class__']
+            d.pop("__class__", None)
+            d["created_at"] = datetime.strptime(d["created_at"],
+                                                "%Y-%m-%d %H:%M:%S.%f")
+            d["updated_at"] = datetime.strptime(d["updated_at"],
+                                                "%Y-%m-%d %H:%M:%S.%f")
+            FileStorage.__objects[o_id] = FileStorage.classes[k_cls](**d)
 
     def delete(self, obj=None):
         """delete obj from __objects if it’s inside"""
