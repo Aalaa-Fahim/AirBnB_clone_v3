@@ -20,7 +20,7 @@ classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
 class FileStorage:
     """serializes instances to a JSON file & deserializes back to instances"""
 
-    strptime = datetime.strptime
+    #strptime = datetime.strptime
     # string - path to the JSON file
     __file_path = "file.json"
     # dictionary - empty but will store all objects by <class name>.id
@@ -49,13 +49,8 @@ class FileStorage:
         param id: id of instance
         return: object or None
         """
-        all_class = self.all(cls)
-
-        for obj in all_class.values():
-            if id == str(obj.id):
-                return obj
-
-        return None
+        key = cls.__name__ + '.' + id
+        return self.__objects.get(key)
 
     def count(self, cls=None):
         """
@@ -63,7 +58,10 @@ class FileStorage:
         param cls: class
         return: number of instances
         """
-        return len(self.all(cls))
+        if cls:
+            return len(self.all(cls))
+        else:
+            return len(self.__objects)
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
@@ -75,21 +73,15 @@ class FileStorage:
 
     def reload(self):
         """deserializes the JSON file to __objects"""
-        fname = FileStorage.__file_path
-        FileStorage.__objects = {}
+        #fname = FileStorage.__file_path
+        #FileStorage.__objects = {}
         try:
-            with open(fname, mode='r', encoding='utf-8') as f:
-                new_objs = json.load(f)
-        except Exception:
-            return
-        for o_id, d in new_objs.items():
-            k_cls = d['__class__']
-            d.pop("__class__", None)
-            d["created_at"] = datetime.strptime(d["created_at"],
-                                                "%Y-%m-%d %H:%M:%S.%f")
-            d["updated_at"] = datetime.strptime(d["updated_at"],
-                                                "%Y-%m-%d %H:%M:%S.%f")
-            FileStorage.__objects[o_id] = FileStorage.classes[k_cls](**d)
+            with open(self.__file_path, 'r') as f:
+                jo = json.load(f)
+            for key in jo:
+                self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
+        except Exception as e:
+            pass
 
     def delete(self, obj=None):
         """delete obj from __objects if it’s inside"""
