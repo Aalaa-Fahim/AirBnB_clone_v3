@@ -20,11 +20,8 @@ def teardown_method(exception):
 @app.errorhandler(404)
 def not_found(error):
     '''to handel errors not found'''
-    response = {"error": "NOT found"}
-    return (jsonify(response), 404)
+    return jsonify({"error": "Not found"}), 404
 
 if __name__ == "__main__":
     ''' Main to run the Flask app'''
-    HOST = getenv('HBNB_API_HOST', '0.0.0.0')
-    PORT = int(getenv('HBNB_API_PORT', 5000))
-    app.run(host=HOST, port=PORT, threaded=True)
+    app.run(host="0.0.0.0", port=5000, threaded=True)
