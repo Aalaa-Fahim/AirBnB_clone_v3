@@ -71,7 +71,13 @@ class DBStorage:
         :param cls: class name
         :return: count of instances of a class
         """
-        return len(self.all(cls))
+        if cls:
+            return self.__session.query(cls).count()
+        else:
+            total_count = 0
+            for cls_name in classes.values():
+                total_count += self.__session.query(cls_name).count()
+            return total_count
 
     def save(self):
         """commit all changes of the current database session"""
