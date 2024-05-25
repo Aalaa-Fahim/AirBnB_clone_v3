@@ -20,7 +20,6 @@ classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
 class FileStorage:
     """serializes instances to a JSON file & deserializes back to instances"""
 
-    #strptime = datetime.strptime
     # string - path to the JSON file
     __file_path = "file.json"
     # dictionary - empty but will store all objects by <class name>.id
@@ -73,8 +72,6 @@ class FileStorage:
 
     def reload(self):
         """deserializes the JSON file to __objects"""
-        #fname = FileStorage.__file_path
-        #FileStorage.__objects = {}
         try:
             with open(self.__file_path, 'r') as f:
                 jo = json.load(f)
