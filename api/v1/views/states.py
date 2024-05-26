@@ -49,7 +49,7 @@ def state_by_id(state_id):
     return: state obj with the specified id or error
     """
 
-    fetched_obj = storage.get("State", str(state_id))
+    fetched_obj = storage.get(State, str(state_id))
 
     if fetched_obj is None:
         abort(404)
@@ -67,7 +67,7 @@ def state_put(state_id):
     state_json = request.get_json(silent=True)
     if state_json is None:
         abort(400, 'Not a JSON')
-    fetched_obj = storage.get("State", str(state_id))
+    fetched_obj = storage.get(State, str(state_id))
     if fetched_obj is None:
         abort(404)
     for key, val in state_json.items():
@@ -86,7 +86,7 @@ def state_delete_by_id(state_id):
     return: empty dict with 200 or 404 if not found
     """
 
-    fetched_obj = storage.get("State", str(state_id))
+    fetched_obj = storage.get(State, str(state_id))
 
     if fetched_obj is None:
         abort(404)
