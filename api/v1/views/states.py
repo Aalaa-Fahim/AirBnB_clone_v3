@@ -14,7 +14,7 @@ def state_get_all():
     returns json of all states
     """
     state_list = []
-    state_obj = storage.all("State")
+    state_obj = storage.all(State)
     for obj in state_obj.values():
         state_list.append(obj.to_json())
 
