@@ -13,7 +13,6 @@ class City(BaseModel, Base):
     if models.storage_t == "db":
         __tablename__ = 'cities'
         state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
-        state = relationship('State', back_populates='cities')
         name = Column(String(128), nullable=False)
         places = relationship("Place", backref="cities")
     else:
