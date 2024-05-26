@@ -77,7 +77,7 @@ def user_put(user_id):
         abort(404)
 
     for key, val in user_json.items():
-        if key not in ["id", "created_at", "updated_at", "email"]:
+        if key not in ["id", "email", "created_at", "updated_at"]:
             setattr(fetched_obj, key, val)
 
     fetched_obj.save()
