@@ -16,7 +16,7 @@ def get_cities_by_state(state_id):
     """
     Retrieves all City objects of a State
     """
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     cities = [city.to_dict() for city in state.cities]
