@@ -14,7 +14,7 @@ def user_get_all():
     return: json of all users
     """
     user_list = []
-    user_obj = storage.all("User")
+    user_obj = storage.all(User)
     for obj in user_obj.values():
         user_list.append(obj.to_json())
 
@@ -51,7 +51,7 @@ def user_by_id(user_id):
     return: user obj with the specified id or error
     """
 
-    fetched_obj = storage.get("User", str(user_id))
+    fetched_obj = storage.get(User, str(user_id))
 
     if fetched_obj is None:
         abort(404)
@@ -71,7 +71,7 @@ def user_put(user_id):
     if user_json is None:
         abort(400, 'Not a JSON')
 
-    fetched_obj = storage.get("User", str(user_id))
+    fetched_obj = storage.get(User, str(user_id))
 
     if fetched_obj is None:
         abort(404)
@@ -93,7 +93,7 @@ def user_delete_by_id(user_id):
     return: empty dict with 200 or 404 if not found
     """
 
-    fetched_obj = storage.get("User", str(user_id))
+    fetched_obj = storage.get(User, str(user_id))
 
     if fetched_obj is None:
         abort(404)
