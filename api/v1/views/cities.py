@@ -29,7 +29,7 @@ def get_city(city_id):
     """
     Retrieves a City object by its id
     """
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
     return jsonify(city.to_dict())
@@ -41,7 +41,7 @@ def delete_city(city_id):
     """
     Deletes a City object by its id
     """
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
 
@@ -56,7 +56,7 @@ def create_city(state_id):
     """
     Creates a new City object
     """
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
 
@@ -77,7 +77,7 @@ def update_city(city_id):
     """
     Updates a City object by its id
     """
-    city = storage.get("City", city_id)
+    city = storage.get(City, city_id)
     if city is None:
         abort(404)
 
