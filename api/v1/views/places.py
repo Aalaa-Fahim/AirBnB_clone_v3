@@ -3,8 +3,12 @@
 route for handling Place objects and operations
 """
 from flask import jsonify, abort, request
-from api.v1.views import app_views, storage
+from api.v1.views import app_views
+from models import storage
+from models.state import State
+from models.city import City
 from models.place import Place
+from models.user import User
 
 
 @app_views.route("/cities/<city_id>/places", methods=["GET"],
@@ -14,11 +18,10 @@ def places_by_city(city_id):
     retrieves all Place objects by city
     return: json of all Places
     """
-    place_list = []
     city_obj = storage.get(City, str(city_id))
-    for obj in city_obj.places:
-        place_list.append(obj.to_json())
-
+    if city_obj is None:
+        abort(404)
+    place_list = [place.to_dict() for place in city_obj.places]
     return jsonify(place_list)
 
 
@@ -45,7 +48,7 @@ def place_create(city_id):
 
     new_place = Place(**place_json)
     new_place.save()
-    resp = jsonify(new_place.to_json())
+    resp = jsonify(new_place.to_dict())
     resp.status_code = 201
 
     return resp
@@ -65,7 +68,7 @@ def place_by_id(place_id):
     if fetched_obj is None:
         abort(404)
 
-    return jsonify(fetched_obj.to_json())
+    return jsonify(fetched_obj.to_dict())
 
 
 @app_views.route("/places/<place_id>",  methods=["PUT"],
