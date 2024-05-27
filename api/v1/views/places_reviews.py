@@ -40,8 +40,7 @@ def review_create(place_id):
     place = storage.get(Place, place_id):
         if not place:
         abort(404)
-    get_user_id = review_json.get("user_id")
-    user_data = storage.get(User, get_user_id)
+    user_data = storage.get(User, review_json["user_id"])
     if not user_data:
         abort(404)
     if "user_id" not in review_json:
