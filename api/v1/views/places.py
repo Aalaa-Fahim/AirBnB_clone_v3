@@ -95,7 +95,7 @@ def place_put(place_id):
 
     fetched_obj.save()
 
-    return jsonify(fetched_obj.to_dict())
+    return jsonify(fetched_obj.to_dict()), 200
 
 
 @app_views.route("/places/<place_id>",  methods=["DELETE"],
@@ -115,4 +115,4 @@ def place_delete_by_id(place_id):
     storage.delete(fetched_obj)
     storage.save()
 
-    return jsonify({})
+    return jsonify({}), 200
