@@ -7,14 +7,14 @@ from models import storage
 
 @app_views.route("/status")
 def status_of_api():
-    """to check status"""
+    """checks status"""
     response = {'status': 'OK'}
     return (jsonify(response))
 
 
 @app_views.route("/stats")
 def stats():
-    """endpoint that retrieves the number of each objects by type"""
+    """endpoint that retrieves the number of each object by type"""
     stats = {
             "states": storage.count('State'),
             "cities": storage.count('City'),
