@@ -34,24 +34,23 @@ def review_create(place_id):
     creates Review route
     return: newly created Review obj
     """
-    review_json = request.get_json(silent=True)
-    if review_json is None:
-        abort(400, 'Not a JSON')
-    place = storage.get(Place, place_id):
+    place = storage.get(Place, place_id)
     if not place:
         abort(404)
-    if not storage.get(User, review_json["user_id"]):
+    if not request.json:
+        abort(400, "Not a JSON")
+    if 'user_id' not in request.json:
+        abort(400, "Missing user_id")
+    if 'text' not in request.json:
+        abort(400, "Missing text")
+    data = request.get_json()
+    user_id = data.get('user_id')
+    user = storage.get(User, user_id)
+    if not user:
         abort(404)
-    if "user_id" not in review_json:
-        abort(400, 'Missing user_id')
-    if "text" not in review_json:
-        abort(400, 'Missing text')
-
-    review_json["place_id"] = place_id
-
-    new_review = Review(**review_json)
+    data['place_id'] = place_id
+    new_review = Review(**data)
     new_review.save()
-
     return jsonify(new_review.to_dict()), 201
 
 
