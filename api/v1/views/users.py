@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-route for handling User objects and operations
+Route for handling User objects and operations
 """
 from flask import jsonify, abort, request
 from api.v1.views import app_views, storage
@@ -10,8 +10,8 @@ from models.user import User
 @app_views.route("/users", methods=["GET"], strict_slashes=False)
 def user_get_all():
     """
-    retrieves all User objects
-    return: json of all users
+    Retrieves all User objects
+    Returns: JSON of all users
     """
     user_list = []
     user_obj = storage.all(User)
@@ -25,7 +25,7 @@ def user_get_all():
 def user_create():
     """
     Creates a new user
-    Returns: newly created user object
+    Returns: Newly created user object
     """
     user_json = request.get_json(silent=True)
     if user_json is None:
@@ -35,22 +35,22 @@ def user_create():
     if "password" not in user_json:
         abort(400, 'Missing password')
 
-    new_user = User(**user_json)
-    new_user.save()
+    new_user = User(**user_json)  # Create a new User instance
+    new_user.save()  # Save the new User to the database
     resp = jsonify(new_user.to_json())
     resp.status_code = 201
 
     return resp
 
 
-@app_views.route("/users/<user_id>",  methods=["GET"], strict_slashes=False)
+@app_views.route("/users/<user_id>", methods=["GET"], strict_slashes=False)
 def user_by_id(user_id):
     """
-    gets a specific User object by ID
-    param user_id: user object id
-    return: user obj with the specified id or error
+    Gets a specific User object by ID
+    Args:
+        user_id: User object ID
+    Returns: User object with the specified ID or error
     """
-
     fetched_obj = storage.get(User, str(user_id))
 
     if fetched_obj is None:
@@ -86,14 +86,14 @@ def user_put(user_id):
     return jsonify(fetched_obj.to_json())
 
 
-@app_views.route("/users/<user_id>",  methods=["DELETE"], strict_slashes=False)
+@app_views.route("/users/<user_id>", methods=["DELETE"], strict_slashes=False)
 def user_delete_by_id(user_id):
     """
-    deletes User by id
-    param user_id: user object id
-    return: empty dict with 200 or 404 if not found
+    Deletes a User by ID
+    Args:
+        user_id: User object ID
+    Returns: Empty dictionary with status code 200 or 404 if not found
     """
-
     fetched_obj = storage.get(User, str(user_id))
 
     if fetched_obj is None:
