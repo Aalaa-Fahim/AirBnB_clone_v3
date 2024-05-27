@@ -18,7 +18,7 @@ def places_by_city(city_id):
     retrieves all Place objects by city
     return: json of all Places
     """
-    city_obj = storage.get(City, str(city_id))
+    city_obj = storage.get(City, city_id)
     if city_obj is None:
         abort(404)
     place_list = [place.to_dict() for place in city_obj.places]
@@ -63,7 +63,7 @@ def place_by_id(place_id):
     return: place obj with the specified id or error
     """
 
-    fetched_obj = storage.get(Place, str(place_id))
+    fetched_obj = storage.get(Place, place_id)
 
     if fetched_obj is None:
         abort(404)
@@ -84,7 +84,7 @@ def place_put(place_id):
     if place_json is None:
         abort(400, 'Not a JSON')
 
-    fetched_obj = storage.get(Place, str(place_id))
+    fetched_obj = storage.get(Place, place_id)
 
     if fetched_obj is None:
         abort(404)
@@ -95,7 +95,7 @@ def place_put(place_id):
 
     fetched_obj.save()
 
-    return jsonify(fetched_obj.to_json())
+    return jsonify(fetched_obj.to_dict())
 
 
 @app_views.route("/places/<place_id>",  methods=["DELETE"],
@@ -107,7 +107,7 @@ def place_delete_by_id(place_id):
     return: empty dict with 200 or 404 if not found
     """
 
-    fetched_obj = storage.get(Place, str(place_id))
+    fetched_obj = storage.get(Place, place_id)
 
     if fetched_obj is None:
         abort(404)
