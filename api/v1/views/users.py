@@ -24,8 +24,8 @@ def user_get_all():
 @app_views.route("/users", methods=["POST"], strict_slashes=False)
 def user_create():
     """
-    creates user route
-    return: newly created user obj
+    Creates a new user
+    Returns: newly created user object
     """
     user_json = request.get_json(silent=True)
     if user_json is None:
@@ -59,12 +59,13 @@ def user_by_id(user_id):
     return jsonify(fetched_obj.to_json())
 
 
-@app_views.route("/users/<user_id>",  methods=["PUT"], strict_slashes=False)
+@app_views.route("/users/<user_id>", methods=["PUT"], strict_slashes=False)
 def user_put(user_id):
     """
-    updates specific User object by ID
-    param user_id: user object ID
-    return: user object and 200 on success, or 400 or 404 on failure
+    Updates a specific User object by ID
+    Args:
+        user_id: User object ID
+    Returns: Updated User object with status code 200
     """
     user_json = request.get_json(silent=True)
 
