@@ -38,10 +38,9 @@ def review_create(place_id):
     if review_json is None:
         abort(400, 'Not a JSON')
     place = storage.get(Place, place_id):
-        if not place:
+    if not place:
         abort(404)
-    user_data = storage.get(User, review_json["user_id"])
-    if not user_data:
+    if not storage.get(User, review_json["user_id"]):
         abort(404)
     if "user_id" not in review_json:
         abort(400, 'Missing user_id')
