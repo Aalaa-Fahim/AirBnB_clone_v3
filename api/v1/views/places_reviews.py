@@ -37,9 +37,12 @@ def review_create(place_id):
     review_json = request.get_json(silent=True)
     if review_json is None:
         abort(400, 'Not a JSON')
-    if not storage.get(Place, place_id):
+    place = storage.get(Place, place_id):
+        if not place:
         abort(404)
-    if not storage.get(User, review_json["user_id"]):
+    get_user_id = review_json.get("user_id")
+    user_data = storage.get(User, get_user_id)
+    if not user_data:
         abort(404)
     if "user_id" not in review_json:
         abort(400, 'Missing user_id')
@@ -50,10 +53,8 @@ def review_create(place_id):
 
     new_review = Review(**review_json)
     new_review.save()
-    resp = jsonify(new_review.to_dict())
-    resp.status_code = 201
 
-    return resp
+    return jsonify(new_review.to_dict()), 201
 
 
 @app_views.route("/reviews/<review_id>",  methods=["GET"],
