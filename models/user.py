@@ -41,12 +41,6 @@ class User(BaseModel, Base):
         """Sets and hashes the password"""
         self._password = self.hash_password(value)
 
-
     def password_hash(self, password):
         '''password'''
         return hashlib.md5(password.encode()).hexdigest()
-
-    def to_dict(self, include_password=False):
-        """Converts instance into dict format"""
-        user_dict = super().to_dict(include_password=include_password)
-        return user_dict
