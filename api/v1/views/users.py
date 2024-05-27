@@ -13,10 +13,11 @@ def user_get_all():
     Retrieves all User objects
     Returns: JSON of all users
     """
-    user_list = []
+    #user_list = []
     user_obj = storage.all(User)
-    for obj in user_obj.values():
-        user_list.append(obj.to_json())
+    user_list = [user.to_dict() for user in user_obj.values()]
+    #for obj in user_obj.values():
+        #user_list.append(obj.to_json())
 
     return jsonify(user_list)
 
