@@ -48,10 +48,8 @@ def place_create(city_id):
 
     new_place = Place(**place_json)
     new_place.save()
-    resp = jsonify(new_place.to_dict())
-    resp.status_code = 201
 
-    return resp
+    return jsonify(new_place.to_dict()), 201
 
 
 @app_views.route("/places/<place_id>",  methods=["GET"],
