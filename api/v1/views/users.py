@@ -13,11 +13,8 @@ def user_get_all():
     Retrieves all User objects
     Returns: JSON of all users
     """
-    #user_list = []
     user_obj = storage.all(User)
     user_list = [user.to_dict() for user in user_obj.values()]
-    #for obj in user_obj.values():
-        #user_list.append(obj.to_json())
 
     return jsonify(user_list)
 
@@ -52,12 +49,12 @@ def user_by_id(user_id):
         user_id: User object ID
     Returns: User object with the specified ID or error
     """
-    fetched_obj = storage.get(User, str(user_id))
+    fetched_obj = storage.get(User, user_id)
 
     if fetched_obj is None:
         abort(404)
 
-    return jsonify(fetched_obj.to_json())
+    return jsonify(fetched_obj.to_dict())
 
 
 @app_views.route("/users/<user_id>", methods=["PUT"], strict_slashes=False)
@@ -73,7 +70,7 @@ def user_put(user_id):
     if user_json is None:
         abort(400, 'Not a JSON')
 
-    fetched_obj = storage.get(User, str(user_id))
+    fetched_obj = storage.get(User, user_id)
 
     if fetched_obj is None:
         abort(404)
@@ -84,7 +81,7 @@ def user_put(user_id):
 
     fetched_obj.save()
 
-    return jsonify(fetched_obj.to_json())
+    return jsonify(fetched_obj.to_dict())
 
 
 @app_views.route("/users/<user_id>", methods=["DELETE"], strict_slashes=False)
@@ -95,7 +92,7 @@ def user_delete_by_id(user_id):
         user_id: User object ID
     Returns: Empty dictionary with status code 200 or 404 if not found
     """
-    fetched_obj = storage.get(User, str(user_id))
+    fetched_obj = storage.get(User, user_id)
 
     if fetched_obj is None:
         abort(404)
